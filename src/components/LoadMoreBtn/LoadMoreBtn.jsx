@@ -1,7 +1,11 @@
-import React from 'react';
+import styles from './LoadMoreBtn.module.css';
 
-const LoadMoreBtn = () => {
-  return <div>LoadMoreBtn</div>;
+const LoadMoreBtn = ({ onLoadMore }) => {
+  return (
+    <button className={styles.LoadMoreBtn} type='button' onClick={onLoadMore}>
+      Load more
+    </button>
+  );
 };
 
 export default LoadMoreBtn;
