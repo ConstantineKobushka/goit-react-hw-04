@@ -5,7 +5,6 @@ import styles from './ImageModal.module.css';
 Modal.setAppElement('#root');
 
 const ImageModal = ({ modalData, modalIsOpen, onCloseModal }) => {
-  console.log(modalData);
   return (
     <Modal
       className={styles.modal}

@@ -5,12 +5,11 @@ import { Bars } from 'react-loader-spinner';
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
+import ImageModal from './components/ImageModal/ImageModal';
 
 import { fetchImagesByTitle } from './services/api';
 
 import styles from './App.module.css';
-import ImageModal from './components/ImageModal/ImageModal';
-// import ImageModal from './components/ImageModal/ImageModal';
 
 function App() {
   const [images, setImages] = useState([]);
@@ -30,8 +29,6 @@ function App() {
         setLoading(true);
         const response = await fetchImagesByTitle(query, page);
         const data = response.data.results;
-        console.log(response);
-        console.log(data);
         if (page === 1) {
           setImages(data);
         } else {
@@ -73,9 +70,7 @@ function App() {
   }
 
   function modalDataHandler(data) {
-    console.log(data);
     setModalData(data);
-    console.log(modalData);
   }
 
   return (
