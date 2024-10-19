@@ -8,19 +8,20 @@ const ImageCard = ({ altDescr, urlSmall, urlRegular, dateCreated, like, onModalD
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
 
-  // function onClickHandler(urlRegular, altDescr) {
-  //   onModalData({ urlRegular, altDescr });
-  //   onOpenModal();
-  // }
+  function onClickHandler() {
+    onModalData({ urlRegular, altDescr });
+    onOpenModal();
+  }
 
   return (
     <li
       className={styles.item}
-      // onClick={onClickHandler}
-      onClick={() => {
-        onModalData({ altDescr, urlRegular });
-        onOpenModal();
-      }}
+      onClick={onClickHandler}
+
+      // onClick={() => {
+      //   onModalData({ altDescr, urlRegular });
+      //   onOpenModal();
+      // }}
     >
       <img className={styles.img} src={urlSmall} alt={altDescr} />
       <div className={styles.wrapper}>
