@@ -4,15 +4,24 @@
   gap: 10px;
   width: calc((100% - 48px) / 5);
   border: 1px solid #000;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
   position: relative;
+  transition: transform 0.3s ease-in;
+}
+.item:hover {
+  transform: scale(1.1);
 }
 .img {
   object-fit: cover;
   flex-grow: 1;
 }
 .wrapper {
-  padding: 10px;
+  padding: 5px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
   justify-content: space-between;
   align-items: center;
   position: absolute;

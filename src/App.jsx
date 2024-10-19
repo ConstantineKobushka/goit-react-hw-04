@@ -84,7 +84,7 @@ function App() {
       {error.isError ? (
         <p className={styles.error}>{error.errorMessage}</p>
       ) : (
-        <ImageGallery images={images} onModalData={modalDataHandler} onOpenModal={onLoadMoreHandler} />
+        <ImageGallery images={images} onModalData={modalDataHandler} onOpenModal={openModalHandler} />
       )}
       {loading && (
         <div className={styles.barsWrapper}>
@@ -100,7 +100,7 @@ function App() {
         </div>
       )}
       {images.length > 0 && page < totalPage && !error.isError && <LoadMoreBtn onLoadMore={onLoadMoreHandler} />}
-      <ImageModal modalIsOpen={modalIsOpen} onRequestClose={closeModalHandler} modalData={modalData} />
+      <ImageModal modalIsOpen={modalIsOpen} onCloseModal={closeModalHandler} modalData={modalData} />
     </>
   );
 }
