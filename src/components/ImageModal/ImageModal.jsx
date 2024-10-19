@@ -4,21 +4,9 @@ import styles from './ImageModal.module.css';
 
 Modal.setAppElement('#root');
 
-// const customStyles = {
-//   content: {
-//     top: '50%',
-//     left: '50%',
-//     right: 'auto',
-//     bottom: 'auto',
-//     marginRight: '-50%',
-//     transform: 'translate(-50%, -50%)',
-//   },
-// };
-
 const ImageModal = ({ modalData, modalIsOpen, onCloseModal }) => {
   console.log(modalData);
   return (
-    // <Modal style={customStyles} isOpen={modalIsOpen} onRequestClose={onCloseModal}>
     <Modal
       className={styles.modal}
       overlayClassName={styles.overlay}
