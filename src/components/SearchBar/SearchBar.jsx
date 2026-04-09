@@ -8,31 +8,32 @@ const notify = () =>
     position: 'top-right',
   });
 
-const SearchBar = ({ onSearch }) => {
-  function onSubmitHandler(e) {
-    e.preventDefault();
-    if (e.target.elements.search.value.trim() === '') {
+const SearchBar = ({ onSubmit }) => {
+  const onFormSubmit = event => {
+    event.preventDefault();
+    const searchValue = event.currentTarget.elements.search.value
+      .trim()
+      .toLowerCase();
+    if (searchValue === '') {
       notify();
       return;
     }
-    const searchValue = e.target.elements.search.value;
-    onSearch(searchValue);
-    e.target.reset();
-  }
-
+    onSubmit(searchValue);
+    event.currentTarget.reset();
+  };
   return (
     <header className={styles.searchHeader}>
-      <form className={styles.searchForm} onSubmit={onSubmitHandler}>
+      <form className={styles.searchForm} onSubmit={onFormSubmit}>
         <input
           className={styles.searchInput}
-          type='text'
-          name='search'
-          autoComplete='off'
+          type="text"
+          name="search"
+          placeholder="Search images and photos"
+          autoComplete="off"
           autoFocus
-          placeholder='Search images and photos'
         />
-        <button className={styles.searchBtn} type='submit'>
-          🔍
+        <button className={styles.searchBtn} type="submit">
+          🔎
         </button>
         <Toaster />
       </form>

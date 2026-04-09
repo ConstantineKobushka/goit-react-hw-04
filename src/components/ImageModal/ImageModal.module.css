@@ -12,10 +12,11 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.9);
 }
-.modalWrapper {
-}
 .modalImg {
   max-width: 290px;
+}
+.noScroll {
+  overflow: hidden;
 }
 
 @media only screen and (min-width: 768px) {

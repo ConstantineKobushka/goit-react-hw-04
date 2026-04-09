@@ -1,103 +1,101 @@
-import { useState, useEffect } from 'react';
-
-import { Bars } from 'react-loader-spinner';
+import { useEffect, useState } from 'react';
 
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
+import Loader from './components/Loader/Loader';
+import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
 
-import { fetchImagesByTitle } from './services/api';
+import { getImagesByQuery } from './services/api';
 
-import styles from './App.module.css';
-
-function App() {
-  const [images, setImages] = useState([]);
-  const [query, setQuery] = useState(false);
+const App = () => {
+  const [images, setImages] = useState(null);
+  const [query, setQuery] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
   const [error, setError] = useState({ isError: false, errorMessage: '' });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalData, setModalData] = useState({});
 
   useEffect(() => {
     if (!query) return;
+
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         setError(false);
-        setLoading(true);
-        const response = await fetchImagesByTitle(query, page);
-        const data = response.data.results;
+        const { data } = await getImagesByQuery(query, page);
+        setTotalPage(data.total_pages);
         if (page === 1) {
-          setImages(data);
+          setImages(data.results);
         } else {
-          setImages((prevState) => {
-            return [...prevState, ...data];
+          setImages(prevState => {
+            return [...prevState, ...data.results];
           });
         }
-        setTotalPage(response.data.total_pages);
       } catch (error) {
-        setError((prevState) => {
+        setError(prevState => {
           return {
             ...prevState,
-            errorMessage: error.message,
             isError: true,
+            errorMessage: error.message,
           };
         });
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
+
     fetchData();
   }, [query, page]);
 
-  function onSearchHandler(searchValue) {
+  const setSearchValue = searchValue => {
+    setImages([]);
     setQuery(searchValue);
     setPage(1);
-  }
+  };
 
-  function onLoadMoreHandler() {
-    setPage(page + 1);
-  }
+  const onLoadMoreClick = () => {
+    setPage(prevState => prevState + 1);
+  };
 
-  function openModalHandler() {
-    setModalIsOpen(true);
-  }
-
-  function closeModalHandler() {
-    setModalIsOpen(false);
-  }
-
-  function modalDataHandler(data) {
+  const getModalData = data => {
     setModalData(data);
-  }
+  };
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   return (
     <>
-      <SearchBar onSearch={onSearchHandler} />
+      <SearchBar onSubmit={setSearchValue} />
       {error.isError ? (
-        <p className={styles.error}>{error.errorMessage}</p>
+        <ErrorMessage>{error.errorMessage}</ErrorMessage>
       ) : (
-        <ImageGallery images={images} onModalData={modalDataHandler} onOpenModal={openModalHandler} />
+        <ImageGallery
+          images={images}
+          onModalData={getModalData}
+          onOpenModal={openModal}
+        />
       )}
-      {loading && (
-        <div className={styles.barsWrapper}>
-          <Bars
-            height='80'
-            width='80'
-            color='#4fa94d'
-            ariaLabel='bars-loading'
-            wrapperStyle={{}}
-            wrapperClass=''
-            visible={true}
-          />
-        </div>
+      {isLoading && <Loader />}
+      {Array.isArray(images) && page < totalPage && !error.isError && (
+        <LoadMoreBtn onLoadMore={onLoadMoreClick} />
       )}
-      {images.length > 0 && page < totalPage && !error.isError && <LoadMoreBtn onLoadMore={onLoadMoreHandler} />}
-      <ImageModal modalIsOpen={modalIsOpen} onCloseModal={closeModalHandler} modalData={modalData} />
+      <ImageModal
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        modalData={modalData}
+      />
     </>
   );
-}
+};
 
 export default App;

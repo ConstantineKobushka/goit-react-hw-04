@@ -2,22 +2,29 @@ import ImageCard from '../ImageCard/ImageCard';
 
 import styles from './ImageGallery.module.css';
 
-const ImageGallery = ({ images, onModalData, modalData, onOpenModal }) => {
+const ImageGallery = ({ images, onModalData, onOpenModal }) => {
   return (
     <ul className={styles.galleryList}>
-      {images.length > 0 &&
-        images.map((image) => (
-          <ImageCard
-            key={image.id}
-            onModalData={onModalData}
-            modalData={modalData}
-            onOpenModal={onOpenModal}
-            altDescr={image.alt_description}
-            urlSmall={image.urls.small}
-            urlRegular={image.urls.regular}
-            dateCreated={image.created_at}
-            like={image.likes}
-          />
+      {Array.isArray(images) &&
+        images.map(({ id, alt_description, urls, created_at, likes }) => (
+          <li
+            className={styles.galleryItem}
+            key={id}
+            onClick={() => {
+              onModalData({
+                urlRegular: urls.regular,
+                altDescr: alt_description,
+              });
+              onOpenModal();
+            }}
+          >
+            <ImageCard
+              urlSmall={urls.small}
+              altDescr={alt_description}
+              dateCreated={created_at}
+              like={likes}
+            />
+          </li>
         ))}
     </ul>
   );

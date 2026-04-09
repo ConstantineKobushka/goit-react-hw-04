@@ -1,10 +1,10 @@
-.LoadMoreBtn {
+.loadMoreBtn {
   display: block;
   width: 100px;
   margin: 0 auto 20px auto;
-  padding: 5px;
+  padding: 7px 10px;
   border-radius: 5px;
-  border: 1px solid #000;
+  border: none;
   background-color: blue;
   color: #fff;
 }

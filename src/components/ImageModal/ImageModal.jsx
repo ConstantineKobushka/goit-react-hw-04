@@ -4,16 +4,21 @@ import styles from './ImageModal.module.css';
 
 Modal.setAppElement('#root');
 
-const ImageModal = ({ modalData, modalIsOpen, onCloseModal }) => {
+const ImageModal = ({ modalIsOpen, closeModal, modalData }) => {
   return (
     <Modal
       className={styles.modal}
       overlayClassName={styles.overlay}
       isOpen={modalIsOpen}
-      onRequestClose={onCloseModal}
+      onRequestClose={closeModal}
+      bodyOpenClassName={styles.noScroll}
     >
       <div className={styles.modalWrapper}>
-        <img className={styles.modalImg} src={modalData.urlRegular} alt={modalData.altDescr} />
+        <img
+          className={styles.modalImg}
+          src={modalData.urlRegular}
+          alt={modalData.altDescr}
+        />
       </div>
     </Modal>
   );
